@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Event Management</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f6f9;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      width: 80%;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+    th {
+      background-color: #f8f9fa;
+    }
+    #message {
+      text-align: center;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Event Dashboard</h2>
+
+    <h3>Add Event</h3>
+    <input type="text" id="eventName" placeholder="Event Name" required>
+    <input type="text" id="location" placeholder="Location" required>
+    <input type="text" id="date" placeholder="Date (YYYY-MM-DD)" required>
+    <textarea id="description" placeholder="Description"></textarea>
+    <button onclick="addEvent()">Add Event</button>
+
+    <p id="message"></p>
+
+    <h3>All Events</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Event Name</th>
+          <th>Location</th>
+          <th>Date</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody id="eventTable"></tbody>
+    </table>
+  </div>
+
+  <script>
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("⚠️ Please login first!");
+      window.location.href = "login.html";
+    }
+
+    async function addEvent() {
+      const event = {
+        eventName: document.getElementById("eventName").value,
+        location: document.getElementById("location").value,
+        date: document.getElementById("date").value,
+        description: document.getElementById("description").value
+      };
+
+      const response = await fetch("http://localhost:8084/events/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + token
+        },
+        body: JSON.stringify(event)
+      });
+
+      const text = await response.text();
+      document.getElementById("message").innerText = text;
+      loadEvents(); // reload events after adding
+    }
+
+    async function loadEvents() {
+      const response = await fetch("http://localhost:8084/events/all", {
+        headers: { "Authorization": "Bearer " + token }
+      });
+
+      const events = await response.json();
+      const table = document.getElementById("eventTable");
+      table.innerHTML = "";
+
+      events.forEach(e => {
+        table.innerHTML += `
+          <tr>
+            <td>${e.id}</td>
+            <td>${e.eventName}</td>
+            <td>${e.location}</td>
+            <td>${e.date}</td>
+            <td>${e.description}</td>
+          </tr>`;
+      });
+    }
+
+    loadEvents();
+  </script>
+</body>
+</html>

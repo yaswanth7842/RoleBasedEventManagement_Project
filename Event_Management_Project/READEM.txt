@@ -1,0 +1,18 @@
+Event Management System (Role-Based)
+------------------------------------
+Developed by: [G Yaswanth]
+College Project – 2025
+
+🔹 Tools & Technologies:
+   Java | Spring Boot | MySQL | HTML | CSS | JavaScript
+
+🔹 Features:
+   - User and Admin Login System
+   - Role-based access control
+   - Add, View, Delete events
+   - RESTful API integration
+
+How to Run:
+1. Start MySQL and configure database.
+2. Run Spring Boot application in Eclipse (port: 8085).
+3. Open frontend HTML files in browser (e.g., index.html).

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Event Management - Home</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #fff3e6, #ffe0cc);
+      margin: 0;
+      padding: 0;
+      color: #333;
+      scroll-behavior: smooth;
+    }
+
+    header {
+      background-color: #fff;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 50px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      animation: slideDown 0.6s ease-in-out;
+    }
+
+    header h1 {
+      color: #ff6600;
+      font-weight: 700;
+      font-size: 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    nav a {
+      margin-left: 25px;
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      transition: color 0.3s, transform 0.3s;
+      padding: 6px 10px;
+      border-radius: 8px;
+    }
+
+    nav a:hover {
+      color: #ff6600;
+      transform: scale(1.05);
+    }
+
+    /* HERO SECTION */
+    .hero {
+      text-align: center;
+      padding: 120px 20px;
+      background-image: url("https://images.unsplash.com/photo-1525168231662-6f3a7d2c7b96?auto=format&fit=crop&w=1500&q=80");
+      background-size: cover;
+      background-position: center;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.4));
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .hero h2 {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      letter-spacing: 1px;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      color: #f9f9f9;
+    }
+
+    .btn {
+      background-color: #ff6600;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      padding: 14px 32px;
+      margin-top: 25px;
+      font-size: 1.05rem;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 5px 15px rgba(255, 102, 0, 0.4);
+    }
+
+    .btn:hover {
+      background-color: #e65c00;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(230, 92, 0, 0.6);
+    }
+
+    /* EVENTS LIST */
+    #eventsList {
+      max-width: 950px;
+      margin: 50px auto;
+      padding: 30px;
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+      animation: fadeUp 0.8s ease-in-out;
+    }
+
+    #eventsList h2 {
+      text-align: center;
+      color: #ff6600;
+      font-weight: 600;
+      margin-bottom: 25px;
+    }
+
+    .event-item {
+      background: linear-gradient(135deg, #fff9f3, #fff3e6);
+      border: none;
+      border-radius: 12px;
+      margin-bottom: 18px;
+      padding: 18px 20px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .event-item:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+    }
+
+    .event-item h3 {
+      color: #ff6600;
+      margin: 0 0 8px;
+    }
+
+    footer {
+      text-align: center;
+      background-color: #1f1f1f;
+      color: #ddd;
+      padding: 18px;
+      font-size: 0.95rem;
+      letter-spacing: 0.3px;
+      margin-top: 50px;
+    }
+
+    footer span {
+      color: #ff6600;
+      font-weight: 600;
+    }
+
+    footer:hover span {
+      text-shadow: 0 0 10px rgba(255, 102, 0, 0.8);
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-100%); }
+      to { transform: translateY(0); }
+    }
+
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🎉 Event Planner</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="explore-events.html">Events</a>
+      <a href="register.html">Register</a>
+      <a href="login.html">Login</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h2>Welcome to Event Management</h2>
+      <p>Plan, Manage, and Celebrate Your Events with Ease</p>
+      <a href="explore-events.html" class="btn">Explore Events</a>
+    </div>
+  </section>
+
+  <div id="eventsList"></div>
+
+  <footer>© 2025 <span>Event Management System</span> | Built by Yaswanth</footer>
+
+  <script>
+    async function loadPublicEvents() {
+      const listDiv = document.getElementById("eventsList");
+      listDiv.innerHTML = "<h3>Loading events...</h3>";
+
+      try {
+        const res = await fetch("http://localhost:8085/events/all");
+        const events = await res.json();
+
+        if (events.length === 0) {
+          listDiv.innerHTML = "<p>No events available right now.</p>";
+          return;
+        }
+
+        listDiv.innerHTML = "<h2>All Events</h2>";
+        events.forEach(e => {
+          listDiv.innerHTML += `
+            <div class="event-item">
+              <h3>${e.eventName}</h3>
+              <p><b>📍 Location:</b> ${e.location}</p>
+              <p><b>📅 Date:</b> ${e.date}</p>
+              <p>${e.description}</p>
+            </div>`;
+        });
+      } catch (error) {
+        listDiv.innerHTML = "<p style='color:red;'>⚠️ Error loading events!</p>";
+      }
+    }
+
+    // Uncomment this line to auto-load events when opening the page:
+    // loadPublicEvents();
+  </script>
+</body>
+</html>

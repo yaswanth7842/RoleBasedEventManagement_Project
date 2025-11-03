@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - Role-Based Event Management</title>
+  <style>
+    :root {
+      --accent: #ff6600;
+      --bg: linear-gradient(135deg, #f2f4f8, #dce3ed);
+      --sidebar: #1e2a38;
+      --card-bg: #ffffff;
+      --text: #333;
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      margin: 0;
+      display: flex;
+      height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 220px;
+      background: var(--sidebar);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      padding-top: 40px;
+      height: 100%;
+      position: fixed;
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      margin-bottom: 40px;
+      color: var(--accent);
+      font-size: 22px;
+    }
+
+    .sidebar a {
+      color: white;
+      text-decoration: none;
+      padding: 12px 25px;
+      font-size: 15px;
+      transition: 0.3s;
+    }
+
+    .sidebar a:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    /* Main content */
+    .main {
+      margin-left: 220px;
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .card {
+      background: var(--card-bg);
+      width: 360px;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--accent);
+    }
+
+    button {
+      width: 100%;
+      background: var(--accent);
+      border: none;
+      padding: 10px;
+      color: white;
+      font-size: 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #e65c00;
+    }
+
+    #result {
+      margin-top: 10px;
+      text-align: center;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sidebar">
+    <h2>EventSystem</h2>
+    <a href="index.html">🏠 Home</a>
+    <a href="login.html">🔐 Login</a>
+    <a href="register.html">📝 Register</a>
+  </div>
+
+  <div class="main">
+    <div class="card">
+      <h2>Create Account</h2>
+      <input type="text" id="username" placeholder="Username" required>
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Password" required>
+
+      <select id="role" required>
+        <option value="">Select Role</option>
+        <option value="USER">User</option>
+        <option value="ADMIN">Admin</option>
+      </select>
+
+      <button onclick="registerUser()">Register</button>
+      <p id="result"></p>
+    </div>
+  </div>
+
+  <script>
+    async function registerUser() {
+      const username = document.getElementById("username").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const role = document.getElementById("role").value;
+
+      if (!username || !email || !password || !role) {
+        alert("Please fill all fields and select a role!");
+        return;
+      }
+
+      const userData = { username, email, password, role };
+      console.log("Registration Data:", userData);
+
+      try {
+        const res = await fetch("http://localhost:8085/auth/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(userData)
+        });
+
+        const text = await res.text();
+        console.log("Response:", text);
+
+        const result = document.getElementById("result");
+        if (res.ok) {
+          result.textContent = "Registered successfully as " + role + "!";
+          result.style.color = "green";
+          setTimeout(() => window.location.href = "login.html", 1500);
+        } else {
+          result.textContent = "Registration failed: " + text;
+          result.style.color = "red";
+        }
+      } catch (err) {
+        document.getElementById("result").textContent = "Server not reachable!";
+        document.getElementById("result").style.color = "orange";
+      }
+    }
+  </script>
+
+</body>
+</html>
