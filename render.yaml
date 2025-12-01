@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: RoleBasedEventManagement-Backend
+    runtime: docker
+    region: oregon
+    dockerfilePath: ./Event_Management_Project/backend/RoleBasedEventManagement/Dockerfile
+    dockerContext: ./Event_Management_Project/backend/RoleBasedEventManagement
+    envVars:
+      - key: PORT
+        value: 8085
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
