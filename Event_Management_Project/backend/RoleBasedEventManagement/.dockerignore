@@ -1,0 +1,7 @@
+target/
+src/test/
+.git/
+.gitignore
+.mvn/
+*.log
+*.class
